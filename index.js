@@ -26,6 +26,11 @@ app.use(basicAuth({authorizer: myAuthorizer}))
 function myAuthorizer(username, password){
     const userMatches = basicAuth.safeCompare(username, 'tokenuser')
     var tokmatch = process.env.TOKEN || 'you-should-really-set-the-ENV-variable'
+    try {
+      var elem = JSON.parse(req.body)
+    } catch (e) {
+      res.send("401 FORMERROR: "+e);
+    }
     const passwordMatches = basicAuth.safeCompare(password, tokmatch)
     if(userMatches == 'tokenuser' && passwordMatches == tokmatch ){
          const col = req.params.col
